@@ -1,5 +1,7 @@
 #!/bin/bash -x
 
+curl --unix-socket /var/run/docker.sock "http:/info" | python -c "import sys, json; print json.load(sys.stdin)['Name']" > /var/opt/microsoft/omsagent/state/containerhostname
+
 sed -i -e 's/bind 127.0.0.1/bind 0.0.0.0/g' /etc/opt/microsoft/omsagent/sysconf/omsagent.d/container.conf
 sed -i -e 's/bind 127.0.0.1/bind 0.0.0.0/g' /etc/opt/microsoft/omsagent/sysconf/omsagent.d/syslog.conf
 sed -i -e 's/^exit 101$/exit 0/g' /usr/sbin/policy-rc.d
